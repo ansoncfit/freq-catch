@@ -1,0 +1,23 @@
+# Process a Puget Sound Region GTFS feed to find Frequent Stops (see STBD Year 3 Annual Report)
+
+feed: puget-sound-region.zip
+# Sound Transit r[r['agency_id'] == '40']
+route_ids:
+  - 102576 # C Line
+  - 102581 # D Line 
+  - 102615 # E Line
+  - 100479 # Link Light Rail
+#For regular bus routes, use route_short_names for convenience
+agency_id: '1' # King County Metro
+route_short_names:
+  - 3
+  - 4
+  - 7
+  - 36
+  - 44
+  - 48
+  - 13
+  - 65
+  - 67
+  - 41
+  - 70

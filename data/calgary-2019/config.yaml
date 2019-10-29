@@ -1,0 +1,26 @@
+# Routes with 15-min or better headways in 2019 calgary gtfs
+feed: 2019.zip
+route_ids:
+  - 1 
+  - 2 
+  - 3 
+  - 4 
+  - 5 
+  - 7 
+  - 8 
+  - 9 
+  - 20 
+  - 21 
+  - 23 
+  - 37 
+  - 38 
+  - 43 
+  - 44 
+  - 48 
+  - 49 
+  - 55 
+  - 71 
+  - 135 
+  - 148 
+  - 301 
+  - 305
