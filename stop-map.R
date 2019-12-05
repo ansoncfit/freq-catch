@@ -19,6 +19,7 @@ date_table <- gtfs$.$date_servicepattern_table
 service_table <- gtfs$.$service_pattern
 
 # Paste service_id values below after inspecting two tables above
+# get_stop_frequency is code built into the tidytransit package
 am_freq <- get_stop_frequency(gtfs, start_hour = 7, end_hour = 8, service_ids = 
                                 c('1BUSWK-Weekday-4-2019MA-1111100', 
                                   '1BUSWK-Weekday-4-2019MA-1111000',
@@ -26,7 +27,6 @@ am_freq <- get_stop_frequency(gtfs, start_hour = 7, end_hour = 8, service_ids =
                                   '1BUSWK-Weekday-4-2019MA-0000100'
                                   
 ))
-
 
 stops <- left_join(gtfs$stops, am_freq, by='stop_id') %>%
   group_by(stop_id) %>%
