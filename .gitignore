@@ -1,3 +1,9 @@
 *.csv
 *.zip
+.RData
+.RHistory
+*.png
 .Rproj.user
+raster-config/.auth
+raster-dl/
+raster-downloads/
