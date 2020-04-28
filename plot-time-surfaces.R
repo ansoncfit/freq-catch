@@ -18,6 +18,8 @@ layer_names = c()
 
 total_variance = tribble(~origin, ~draws, ~percentile, ~variance)
 
+mean_cell_rmsd = tribble(~origin, ~draws, ~percentile, ~mrmsd)
+
 max_range = tribble(~origin, ~draws, ~percentile, ~range)
 
 for (i in 1:length(origins)) {
@@ -53,6 +55,13 @@ for (i in 1:length(origins)) {
                                variance = cellStats(sd_raster ^ 2, 'sum')
                               )
       
+      mean_cell_rmsd = add_row(mean_cell_rmsd,
+                               origin = i,
+                               draws = d,
+                               percentile = p,
+                               mrmsd = cellStats((sd_raster * 19/20 / 100), 'sum') / cellStats(!is.na(sd_raster),'sum') # convert denominator from n-1 to n, and from percentage
+                               )
+      
       max_range = add_row(max_range, 
                           origin = i, 
                           draws = d, 
@@ -83,7 +92,7 @@ max_range %>%
   aes(draws, range, color=origin) +
   geom_point() +
   geom_line(size = 0.25, linetype = 'dashed') + 
-  scale_x_continuous(limits = c(60, 1200), breaks = c(120, 480, 960)) +
+  scale_x_continuous(limits = c(60, 1200), breaks = c(60, 480, 1200)) +
   scale_y_continuous(position = 'right', breaks = seq(0, 20, 10), minor_breaks = seq(0, 20, 2)) +
   expand_limits(y = c(0, 20)) +
   facet_grid(origin ~ percentile, labeller = labeller(origin = as_labeller(origin_labeller), percentile = as_labeller(pctile_labeller)), switch = 'y') + 
@@ -102,6 +111,19 @@ total_variance %>%
   labs(title='Total variation \n (by origin, percentile travel time, and number of Monte Carlo draws)', y = 'Total variation', x= 'Monte Carlo draws') + 
   theme_grey() + 
   theme(legend.position = 'None', panel.grid.major = element_blank(), panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5))
+
+mean_cell_rmsd %>%
+  ggplot() +
+  aes(draws, mrmsd, color=origin) +
+  geom_point() +
+  geom_line(size = 0.25, linetype = 'dashed') + 
+  scale_x_continuous(limits = c(60, 1200), breaks = c(60, 480, 1200)) +
+  scale_y_continuous(position = 'right', breaks = seq(0, 2, 1), minor_breaks = seq(0, 2, 0.5)) +
+  expand_limits(y = c(0, 2)) +
+  facet_grid(origin ~ percentile, labeller = labeller(origin = as_labeller(origin_labeller), percentile = as_labeller(pctile_labeller)), switch = 'y') + 
+  labs(title='RMSD, mean across raster cells reachable in all trials \n (by origin, percentile travel time, and number of Monte Carlo draws)', y = 'RMSD (Minutes)', x= 'Monte Carlo draws') + 
+  theme_grey() + 
+  theme(legend.position = 'None', panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), plot.title = element_text(hjust = 0.5))
 
 names(cv_stack) = layer_names
 

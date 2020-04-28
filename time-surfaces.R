@@ -60,7 +60,7 @@ download_origin = function(origin, n_draws) {
     }
     
     for (j in 1:n_repli) {
-      raster_path = paste(draw_dir, paste(j, 'geotiff', sep = '.'), sep = '/')
+      raster_path = glue('{draw_dir}/{j}.geotiff')
   
       profile_request$monteCarloDraws = i
   
